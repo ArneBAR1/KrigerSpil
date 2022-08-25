@@ -11,6 +11,8 @@ namespace KrigerSpil
         //Byg en item klasse der kan equip og unequip. De skal have en generic action
         //Byg en sværd klasse der nedarver fra Itemklassen og overrider actionen med en skade funktion
         //Byg en Wizard staff klasse der nedarver fra itemklassen og som nedarver fra Itemklassen og som overrider actionen med en teleport funktion
+        //Omdefinér jeres Items til at bruge interfaces
+        //En Item skal kunne have interfae der kan kaste formularer, gøre skade, heale, lave en form for utility
         static void Main(string[] args)
         {
             Random rnd = new Random();
@@ -23,7 +25,8 @@ namespace KrigerSpil
             Person person = new Person();
             Kriger kriger = new Kriger();
             Wizard wizard = new Wizard();
-            Item item = new Item();
+            Sword sword = new Sword();
+            Staff staff = new Staff();
             switch (chance)
             {
                 case 1:
@@ -38,10 +41,22 @@ namespace KrigerSpil
                     {
                         case 1:
                             Console.WriteLine("You got a sword");
-                            item.Equip(kriger);
-                            item.Action();
+                            sword.Equip(kriger);
+                            int bigChance = rnd.Next(1,  3);
+                            switch (bigChance)
+                            {   
+                                case 1:
+                                    Console.WriteLine("You and the sword connects which realeses the opportunity to do a oneshot!");
+                                    sword.OneShot();
+                                    person.health = 0;
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Aw, no oneshot for you!");
+                                    break;
+                            }
+                            sword.Action();
                             person.health -= 40;
-                            item.Unequip(kriger);
+                            sword.Unequip(kriger);
                             Console.WriteLine("The sword is so powerful it yeets itself into space!");
                             Console.WriteLine("Continue!");
                             Console.ReadLine();
@@ -71,11 +86,23 @@ namespace KrigerSpil
                     {
                         case 1:
                             Console.WriteLine("You've got a staff");
-                            item.Equip(wizard);
-                            item.Action();
+                            staff.Equip(wizard);
+                            int bigChance = rnd.Next(1, 3);
+                            switch (bigChance)
+                            {
+                                case 1:
+                                    Console.WriteLine("The staff unleases itself and sends out a powerful spell which hits the human in the face!");
+                                    staff.CastSpell();
+                                    person.health = 10;
+                                    break;
+                                case 2:
+                                    Console.WriteLine("Aw, no powerful spell for you!");
+                                    break;
+                            }
+                            staff.Action();
                             Console.WriteLine("You've teleported yourself into the desert");
                             Console.WriteLine("You managed to teleport back! Continue the fight!");
-                            item.Unequip(wizard);
+                            staff.Unequip(wizard);
                             break;
                         case 2:
                             Console.WriteLine("You got nothing! Continue fighting!");

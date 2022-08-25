@@ -6,11 +6,16 @@ using System.Threading.Tasks;
 
 namespace KrigerSpil.Class
 {
-    class Staff:Item
+    public class Staff:Item, ISpellable 
     {
         public override string Action()
         {
             return "The wizards teleports!";
+        }
+
+        public void CastSpell()
+        {
+            Console.WriteLine("You hit the human with a powerful spell!");
         }
     }
 }
